@@ -15,6 +15,7 @@ a intenção é ir adicionando todos por estado até finalmente mapear todos e p
 - Maven
 
 ## Adições futuras
+- [ ] Corrigir formatação dos dados recebidos
 - [ ] Tratamento da requisição com formato do CEP
 - [ ] Opção para calcular o frete entre duas localidades
 - [ ] Testes unitários com JUnit
