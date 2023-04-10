@@ -1,4 +1,4 @@
-package br.com.correios.api.model;
+package br.com.correios.model;
 
 public enum Status {
     NEED_SETUP,

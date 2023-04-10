@@ -1,6 +1,6 @@
-package br.com.correios.api.repository;
+package br.com.correios.repository;
 
-import br.com.correios.api.model.Endereco;
+import br.com.correios.model.Endereco;
 import org.springframework.data.repository.CrudRepository;
 
 public interface EnderecoRepository extends CrudRepository<Endereco, String> {
