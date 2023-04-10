@@ -19,25 +19,26 @@ public class SetupRepository {
 
     @Value("${correios.base.url}")
     private String url;
+
     public List<Endereco> getFromOrigin() throws Exception {
         List<Endereco> resultList = new ArrayList<>();
-        String resultStr = "";
+        String resultStr = null;
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
-             CloseableHttpResponse response = httpClient.execute(new HttpGet(this.url))) {
+             CloseableHttpResponse response = httpClient.execute(new HttpGet(url))) {
             HttpEntity entity = response.getEntity();
             resultStr = EntityUtils.toString(entity);
         }
 
-        for (String atual : resultStr.split("\n")) {
-            String[] linhaAtualSplit = atual.split(",");
+        for (String current : resultStr.split("\n")) {
+            String[] currentSplit = current.split(",");
 
             resultList.add(Endereco.builder()
-                    .estado(linhaAtualSplit[0])
-                    .cidade(linhaAtualSplit[1])
-                    .estado(linhaAtualSplit[2])
-                    .cep(StringUtils.leftPad(linhaAtualSplit[3], 8, "0"))
-                    .rua(linhaAtualSplit.length > 4 ? linhaAtualSplit[4] : null)
+                    .estado(currentSplit[0])
+                    .cidade(currentSplit[1])
+                    .bairro(currentSplit[2])
+                    .cep(StringUtils.leftPad(currentSplit[3], 8, "0"))
+                    .rua(currentSplit.length > 4 ? currentSplit[4] : null)
                     .build());
         }
 
