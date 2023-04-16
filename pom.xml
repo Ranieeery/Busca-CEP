@@ -51,6 +51,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-spring-test-listener</artifactId>
+            <scope>test</scope>
+            <version>5.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.14</version>
