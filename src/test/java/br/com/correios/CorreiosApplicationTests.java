@@ -2,9 +2,9 @@ package br.com.correios;
 
 import br.com.correios.service.CorreiosService;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockserver.model.HttpRequest;
+import org.junit.jupiter.api.Assertions;
 import org.mockserver.model.HttpResponse;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -51,8 +51,8 @@ class CorreiosApplicationTests {
         Assertions.assertThrows(Exception.class, () -> correiosService.setup());
     }
 
-    public void testGetCepDoesntExist() {
-
+    public void testGetCepDoesntExist() throws Exception {
+        mockMvc.perform(get("/cep/00000000")).andExpect(status().isNoContent());
     }
 
     public void testGetCep() {
