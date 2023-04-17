@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import br.com.correios.model.Status;
 import br.com.correios.model.Endereco;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.context.event.EventListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class CorreiosService {
 
     @Autowired
     private SetupRepository setupRepository;
+
+    @Value("${setup.on.startup}")
+    private boolean setupOnStartup;
 
     public Status getStatus() {
         return enderecoStatusRepository.findById(EnderecoStatus.DEFAULT_ID).orElse(EnderecoStatus.builder().status(Status.NEED_SETUP).build()).getStatus();
@@ -51,6 +55,8 @@ public class CorreiosService {
 
     @EventListener(ApplicationStartedEvent.class)
     protected void setupStartup() {
+    if(!setupOnStartup) return;
+
         try {
             this.setup();
         } catch (Exception e) {
