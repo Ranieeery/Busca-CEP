@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.context.event.EventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
+
 @Service
 public class CorreiosService {
 
@@ -55,7 +56,7 @@ public class CorreiosService {
 
     @EventListener(ApplicationStartedEvent.class)
     protected void setupStartup() {
-    if(!setupOnStartup) return;
+        if (!setupOnStartup) return;
 
         try {
             this.setup();
