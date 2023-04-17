@@ -18,7 +18,7 @@ a intenção é ir adicionando todos por estado até finalmente mapear todos e p
 - [ ] Corrigir formatação dos dados recebidos
 - [ ] Tratamento da requisição com formato do CEP
 - [ ] Opção para calcular o frete entre duas localidades
-- [ ] Testes unitários com JUnit
+- [x] Testes unitários com JUnit
 - [ ] Build com Docker compose
 
 ## Como usar
@@ -39,3 +39,8 @@ Assim que concluído, o site retorna este resultado:
 Para realizar uma busca, basta acessar `http://localhost:8080/cep/numerocep`, trocando "numerocep" pelo número do CEP desejado, lembrando que atualmente estão disponíveis apenas CEPs do estado de Minas Gerais
 
 ![image](https://user-images.githubusercontent.com/102702376/231017192-5a7f5913-8874-471a-a9ae-add7a91ea6f9.png)
+
+## Testes Unitários
+Para realizar os testes basta executar "CorreiosApplicationTests" para iniciar a validação.
+
+![image](https://user-images.githubusercontent.com/102702376/232593298-d495d0ba-3fd9-42c4-a4ff-6c7758c7e1cc.png)
