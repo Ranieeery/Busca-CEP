@@ -2,6 +2,7 @@ package br.com.correios;
 
 import br.com.correios.service.CorreiosService;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -40,10 +41,14 @@ class CorreiosApplicationTests {
         String bodyString = "MG, Belo Horizonte, Serra Verde (Venda Nova), 31630900, Rodovia Papa JoÃ£o Paulo II,,,,,,,,,,";
 
         mockServerClient.when(HttpRequest.request().withPath("/ceps.csv").withMethod("GET")).respond(HttpResponse.response().withStatusCode(200).withBody(bodyString));
+
+        correiosService.setup();
     }
 
     public void testSetupNotOk() {
+        mockServerClient.when(HttpRequest.request().withPath("/ceps.csv").withMethod("GET")).respond(HttpResponse.response().withStatusCode(500).withBody("ERRO"));
 
+        Assertions.assertThrows(Exception.class, () -> correiosService.setup());
     }
 
     public void testGetCepDoesntExist() {
