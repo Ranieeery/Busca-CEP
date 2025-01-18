@@ -1,28 +1,25 @@
 package br.com.correios;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import br.com.correios.model.Endereco;
+import br.com.correios.service.CorreiosService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.springtest.MockServerTest;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
-import br.com.correios.model.Endereco;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.mockserver.client.MockServerClient;
-import br.com.correios.service.CorreiosService;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.mockserver.springtest.MockServerTest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-
 
 @MockServerTest({"setup.origin.url=http://localhost:${mockServerPort}/ceps.csv"})
 @TestMethodOrder(OrderAnnotation.class)
@@ -49,7 +46,8 @@ class CorreiosApplicationTests {
     public void testSetupOk() {
         String bodyString = "MG, Belo Horizonte, Serra Verde (Venda Nova), 31630900, Rodovia Papa JoÃ£o Paulo II,,,,,,,,,,";
 
-        mockServerClient.when(request().withPath("/ceps.csv").withMethod("GET")).respond(response().withStatusCode(200).withBody(bodyString));
+        mockServerClient.when(request().withPath("/ceps.csv").withMethod("GET"))
+            .respond(response().withStatusCode(200).withBody(bodyString));
 
         correiosService.setup();
     }
@@ -67,13 +65,13 @@ class CorreiosApplicationTests {
         String stringResult = mvcResult.getResponse().getContentAsString();
 
         String enderecoCompare = new ObjectMapper().writeValueAsString(
-                Endereco.builder()
-                        .cep("31630900")
-                        .rua("Rodovia Papa JoÃ\u0083Â£o Paulo II")
-                        .bairro("Serra Verde (Venda Nova)")
-                        .estado("MG")
-                        .cidade("Belo Horizonte")
-                        .build());
+            Endereco.builder()
+                .cep("31630900")
+                .rua("Rodovia Papa JoÃ£o Paulo II")
+                .bairro("Serra Verde (Venda Nova)")
+                .estado("MG")
+                .cidade("Belo Horizonte")
+                .build());
 
         JSONAssert.assertEquals(enderecoCompare, stringResult, false);
     }
