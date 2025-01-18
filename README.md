@@ -1,46 +1,79 @@
-# Busca Correios
+# Busca CEP API
 
-Ese projeto trata-se de um programa que salva uma lista de CEPs extraídas dos correios em um banco SQL e permite a consulta desses CEPs via API REST.
+A Spring Boot application that manages a database of Brazilian postal codes (CEPs) and provides a REST API for querying them. Currently focused on the state of Minas Gerais with approximately 80,000 postal codes, with plans to expand to cover all Brazilian states (approximately 890,000 postal codes).
 
-No momento por uma questão de desempenho estão presentes apenas os CEPs do estado de Minas Gerais que totalizam quase 80 mil linhas no banco de dados porém
-a intenção é ir adicionando todos por estado até finalmente mapear todos e permitir a busca de qualquer CEP do país, totalizando aproximadamente 890 mil linhas no banco de dados
+## Features
 
-## Tecnologias utilizadas
+- REST API for querying Brazilian postal codes (CEPs)
+- MySQL database integration
+- JUnit test coverage
+- Status endpoint for monitoring setup progress
+- Initial focus on Minas Gerais state postal codes
+
+## Technology Stack
+
 - Java 17
 - Spring Boot 3
+- MySQL Database
+- Spring Data JPA
 - Lombok
-- MySQL
-- Spring Data
-- JPA
+- Maven
+- JUnit for testing
+
+## Prerequisites
+
+- Java 17 or higher
+- MySQL Server
 - Maven
 
-## Adições futuras
-- [ ] Corrigir formatação dos dados recebidos
-- [ ] Tratamento da requisição com formato do CEP
-- [ ] Opção para calcular o frete entre duas localidades
-- [x] Testes unitários com JUnit
-- [ ] Build com Docker compose
+## Installation
 
-## Como usar
-Por enquanto o código apenas funciona em um ambiente de desenvolvimento. Caso o seu ambiente não atualize as dependências do Maven, insira no projeto utilizando este comando:
-```
+1. Install dependencies:
+
+```bash
 mvn clean install
 ```
-Inicialize a aplicação Spring e aguarde até a aplicação subir a API, o que leva aproximadamente 1 minuto. Além do terminal você pode conferir o status através do endereço
-`http://localhost:8080/status`. Ao tentar realizar uma busca durante o setup um erro 503 será retornado informando que o setup ainda está rodando.
 
-![image](https://user-images.githubusercontent.com/102702376/231016083-7b5369d7-2115-41e1-b3e6-7b216141f50e.png)
-<div align="center"><sup align="center">Foi utilizado o Insomnia para teste da API, porém neste projeto pode ser realizado pelo browser</sup></div>
+2. Configure the MySQL database:
 
-Assim que concluído, o site retorna este resultado:
+```sql
+CREATE DATABASE correios;
+```
 
-![image](https://user-images.githubusercontent.com/102702376/231016793-d8823f11-c068-4395-a9e5-f92b7a026934.png)
+3. Run the application:
 
-Para realizar uma busca, basta acessar `http://localhost:8080/cep/numerocep`, trocando "numerocep" pelo número do CEP desejado, lembrando que atualmente estão disponíveis apenas CEPs do estado de Minas Gerais
+```bash
+mvn spring-boot:run
+```
 
-![image](https://user-images.githubusercontent.com/102702376/231017192-5a7f5913-8874-471a-a9ae-add7a91ea6f9.png)
+## Usage
 
-## Testes Unitários
-Para realizar os testes basta executar "CorreiosApplicationTests" para iniciar a validação.
+1. Start the Spring Boot application
 
-![image](https://user-images.githubusercontent.com/102702376/232593298-d495d0ba-3fd9-42c4-a4ff-6c7758c7e1cc.png)
+2. The initial setup will take approximately 1 minute to complete
+
+3. Check the application status at: `http://localhost:8080/status`
+
+4. Once setup is complete, you can query postal codes via the API
+
+Note: Attempting to query before setup completion will return a 503 error.
+
+## API Documentation
+
+The API documentation is available through Swagger UI at:
+
+- `http://localhost:8080/swagger-ui.html`
+
+You can also access the OpenAPI specification at:
+
+- `http://localhost:8080/v3/api-docs`
+
+These endpoints provide interactive documentation for all available API endpoints, request/response models, and testing capabilities.
+
+## Testing
+
+Run the unit tests using:
+
+```bash
+mvn test
+```
