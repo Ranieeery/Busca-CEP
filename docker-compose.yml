@@ -1,0 +1,25 @@
+services:
+  postgresql:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: correios
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    depends_on:
+      - postgresql
+    build: ./app
+    restart: on-failure
+    ports:
+      - "5000:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{ "spring.datasource.url": "jdbc:postgresql://postgresql:5432/correios", "spring.datasource.username": "postgres", "spring.datasource.password": "root", "spring.jpa.hibernate.ddl-auto": "create", "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.PostgreSQLDialect" }'
+
+volumes:
+  db:
